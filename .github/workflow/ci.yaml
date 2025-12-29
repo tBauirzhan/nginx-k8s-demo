@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Login to GHCR
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Build image
+      run: |
+        docker build -t ghcr.io/${{ github.actor }}/nginx-demo:${{ github.sha }} .
+        docker tag ghcr.io/${{ github.actor }}/nginx-demo:${{ github.sha }} ghcr.io/${{ github.actor }}/nginx-demo:latest
+
+    - name: Push image
+      run: |
+        docker push ghcr.io/${{ github.actor }}/nginx-demo:${{ github.sha }}
+        docker push ghcr.io/${{ github.actor }}/nginx-demo:latest
