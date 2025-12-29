@@ -1,0 +1,20 @@
+name: CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+    deploy:
+      runs-on: self-hosted
+
+      steps:
+      - uses: actions/checkout@v4
+
+      - name: Check cluster
+        run: kubectl config get-contexts
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/
+
