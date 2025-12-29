@@ -1,20 +1,23 @@
 name: CD
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
 
 jobs:
-    deploy:
-      runs-on: self-hosted
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
 
-      steps:
-      - uses: actions/checkout@v4
+    steps:
+    - uses: actions/checkout@v4
 
-      - name: Check cluster
-        run: kubectl config get-contexts
-
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f k8s/
+    - name: Check cluster
+      run: kubectl config get-contexts
+      
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/
 
