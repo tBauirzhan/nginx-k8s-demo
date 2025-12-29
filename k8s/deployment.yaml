@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: ghcr.io/tBauirzhan/nginx-demo:latest
+        image: ghcr.io/tbauirzhan/nginx-demo:latest
         ports:
         - containerPort: 80
         resources:

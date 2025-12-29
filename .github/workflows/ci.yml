@@ -20,10 +20,10 @@ jobs:
 
     - name: Build image
       run: |
-        docker build -t ghcr.io/${{ github.actor }}/nginx-demo:${{ github.sha }} .
-        docker tag ghcr.io/${{ github.actor }}/nginx-demo:${{ github.sha }} ghcr.io/${{ github.actor }}/nginx-demo:latest
+        docker build -t ghcr.io/tbauirzhan/nginx-demo:${{ github.sha }} .
+        docker tag ghcr.io/tbauirzhan/nginx-demo:${{ github.sha }} ghcr.io/tbauirzhan/nginx-demo:latest
 
     - name: Push image
       run: |
-        docker push ghcr.io/${{ github.actor }}/nginx-demo:${{ github.sha }}
-        docker push ghcr.io/${{ github.actor }}/nginx-demo:latest
+        docker push ghcr.io/tbauirzhan/nginx-demo:${{ github.sha }}
+        docker push ghcr.io/tbauirzhan/nginx-demo:latest
