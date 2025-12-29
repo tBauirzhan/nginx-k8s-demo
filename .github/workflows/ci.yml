@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
@@ -27,14 +27,14 @@ jobs:
       run: |
         docker push ghcr.io/tbauirzhan/nginx-demo:${{ github.sha }}
         docker push ghcr.io/tbauirzhan/nginx-demo:latest
+  deploy:
+    runs-on: self-hosted
 
-    - name: Set up kubeconfig
-      run: |
-        mkdir -p ~/.kube
-        echo "${{ secrets.KUBECONFIG_DATA }}" > ~/.kube/config
+    steps:
+    - uses: actions/checkout@v4
 
     - name: Check cluster
-      run: kubectl get nodes
+      run: kubectl config get-contexts
 
     - name: Deploy to Kubernetes
       run: |
